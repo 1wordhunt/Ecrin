@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sana Özel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fraunces:wght@400;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-deep: #1c1330;
+    --bg-deep-2: #150d24;
+    --bg-surface: #2c1f4a;
+    --gold: #f4c95d;
+    --gold-soft: #f8dc94;
+    --rose: #f2789f;
+    --text-primary: #fbf6ef;
+    --text-muted: #c3b8da;
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Sora', system-ui, sans-serif;
+    --font-script: 'Caveat', cursive;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: linear-gradient(180deg, var(--bg-deep-2), var(--bg-deep) 40%, #241a3d 100%);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  section {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 24px;
+  }
+
+  .eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+
+  h1, h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.15;
+  }
+
+  h1 { font-size: clamp(2.4rem, 9vw, 4.2rem); }
+  h2 { font-size: clamp(2rem, 7vw, 3.2rem); }
+
+  .spark { display: inline-block; margin-left: 6px; }
+
+  .hero-sub {
+    margin-top: 20px;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 40px;
+    font-size: 1.4rem;
+    color: var(--gold);
+    animation: bob 2s ease-in-out infinite;
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); opacity: .6; }
+    50% { transform: translateY(10px); opacity: 1; }
+  }
+
+  #embers {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .ember {
+    position: absolute;
+    bottom: -20px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--gold-soft), transparent 70%);
+    animation-name: drift;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  @keyframes drift {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    12% { opacity: .8; }
+    85% { opacity: .4; }
+    100% { transform: translateY(-115vh) translateX(24px); opacity: 0; }
+  }
+
+  .garland {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 34px 18px;
+    justify-content: center;
+    max-width: 760px;
+    margin-top: 30px;
+  }
+  .tag {
+    position: relative;
+    background: var(--bg-surface);
+    border: 1px solid rgba(244,201,93,0.22);
+    border-radius: 3px 3px 12px 12px;
+    padding: 20px 20px 18px;
+    width: 210px;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    text-align: left;
+    box-shadow: 0 18px 34px -16px rgba(0,0,0,0.6);
+    opacity: 0;
+    transform: translateY(-16px) rotate(var(--tilt, 0deg));
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .tag::before {
+    content: '';
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    width: 1px;
+    height: 16px;
+    background: rgba(244,201,93,0.45);
+  }
+  .tag::after {
+    content: '';
+    position: absolute;
+    top: -19px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .tag.visible {
+    opacity: 1;
+    transform: translateY(0) rotate(var(--tilt, 0deg));
+  }
+
+  .gift { overflow: hidden; }
+  .spotlight {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 620px;
+    height: 620px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(244,201,93,0.16), transparent 65%);
+    z-index: -1;
+  }
+  .gift-icon { font-size: 3rem; margin-bottom: 6px; }
+  .gift h2 { max-width: 480px; }
+
+  .btn-row {
+    display: flex;
+    gap: 18px;
+    margin-top: 34px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 15px 34px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: transform .35s ease, top .35s ease, left .35s ease, box-shadow .2s ease;
+  }
+  .btn-yes {
+    background: var(--gold);
+    color: #241a3d;
+    box-shadow: 0 12px 26px -10px rgba(244,201,93,0.6);
+  }
+  .btn-yes:hover { transform: scale(1.04); }
+  .btn-no {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+
+  .tease {
+    margin-top: 22px;
+    min-height: 24px;
+    color: var(--rose);
+    font-size: 0.95rem;
+  }
+
+  .hidden { display: none; }
+
+  .celebration h2 { color: var(--gold-soft); }
+  .celebration-sub, .celebration-gift {
+    max-width: 460px;
+    margin-top: 16px;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+  .celebration-gift { color: var(--rose); }
+
+  .wish-title {
+    font-family: var(--font-script);
+    font-weight: 700;
+    font-size: clamp(2.6rem, 8vw, 3.6rem);
+    color: var(--gold-soft);
+  }
+  .wish-sub {
+    color: var(--text-muted);
+    margin-top: 8px;
+    margin-bottom: 30px;
+  }
+
+  #wish-input {
+    width: 100%;
+    max-width: 460px;
+    background: var(--bg-surface);
+    border: 1px solid rgba(244,201,93,0.25);
+    border-radius: 16px;
+    padding: 18px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    resize: vertical;
+  }
+  #wish-input::placeholder { color: var(--text-muted); opacity: .7; }
+
+  .btn-send { background: var(--rose); color: #241a3d; margin-top: 20px; }
+  .btn-send:hover { transform: scale(1.04); }
+  .btn-send:disabled { opacity: .55; cursor: default; transform: none; }
+
+  .wish-status {
+    margin-top: 16px;
+    min-height: 22px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+
+  .footer { min-height: auto; padding: 40px 24px 56px; }
+  .footer p { font-family: var(--font-script); font-size: 1.3rem; color: var(--text-muted); }
+
+  #confetti-container {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .confetti-piece {
+    position: absolute;
+    top: -10px;
+    animation-name: confetti-fall;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+  @keyframes confetti-fall {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(720deg); }
+  }
+
+  button:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .ember, .scroll-cue { animation: none !important; }
+    .tag { transition: opacity .3s ease; }
+  }
+
+  @media (max-width: 480px) {
+    .tag { width: 78vw; max-width: 260px; }
+    section { padding: 60px 20px; }
+  }
+</style>
+</head>
+<body>
+
+  <div id="embers"></div>
+  <div id="confetti-container"></div>
+
+  <section class="hero">
+    <p class="eyebrow">bu sayfa</p>
+    <h1>Tamamen<br>senin için<span class="spark">✨</span></h1>
+    <p class="hero-sub">Aşağı kaydır</p>
+    <div class="scroll-cue" aria-hidden="true">↓</div>
+  </section>
+
+  <section class="compliments">
+    <p class="eyebrow">bil ki</p>
+    <div class="garland">
+      <div class="tag" style="--tilt:-3deg">Al.</div>
+      <div class="tag" style="--tilt:2deg">sana</div>
+      <div class="tag" style="--tilt:-2deg">Hediye.</div>
+      <div class="tag" style="--tilt:3deg">Aslan.</div>
+      <div class="tag" style="--tilt:-3deg">Ablam</div>
+      <div class="tag" style="--tilt:2deg">Benim.</div>
+      <div class="tag" style="--tilt:-2deg">:D.</div>
+    </div>
+  </section>
+
+  <section class="gift">
+    <div class="spotlight"></div>
+    <p class="gift-icon" aria-hidden="true">🎁</p>
+    <h2>Sana bir hediye hazırladım.<br>Kabul ediyor musun?</h2>
+    <div class="btn-row">
+      <button id="yes-btn" class="btn btn-yes" type="button">Evet</button>
+      <button id="no-btn" class="btn btn-no" type="button">Hayır</button>
+    </div>
+    <p id="tease" class="tease" aria-live="polite"></p>
+  </section>
+
+  <section id="celebration" class="celebration hidden">
+    <p class="eyebrow">iyi ki doğdun</p>
+    <h2>Doğum günün<br>kutlu olsun 🎂 (Doğum günün değil ama olsun)</h2>
+    <p class="celebration-sub"> he bide okulda görüşürüz.</p>
+    <p class="celebration-gift">iyimi la 💫</p>
+  </section>
+
+  <section id="wish" class="wish hidden">
+    <p class="eyebrow">son olarak</p>
+    <h2 class="wish-title">Bir dilek tut</h2>
+    <p class="wish-sub">Aklından geçeni yaz, öylesine bir yer eglence amaçlı.</p>
+    <textarea id="wish-input" aria-label="Dileğin" placeholder="Dileğini buraya yaz..." rows="4"></textarea>
+    <button id="send-wish-btn" class="btn btn-send" type="button">Dileğini Gönder berki kabul olur</button>
+    <p id="wish-status" class="wish-status" aria-live="polite"></p>
+  </section>
+
+  <footer class="footer">
+    <p>İçtenlikle hazırlandı 🕯️</p>
+  </footer>
+
+<script>
+  // Ambient embers
+  (function () {
+    var container = document.getElementById('embers');
+    var count = 16;
+    for (var i = 0; i < count; i++) {
+      var e = document.createElement('span');
+      e.className = 'ember';
+      var size = Math.random() * 5 + 3;
+      e.style.width = size + 'px';
+      e.style.height = size + 'px';
+      e.style.left = Math.random() * 100 + 'vw';
+      e.style.animationDuration = (Math.random() * 8 + 9) + 's';
+      e.style.animationDelay = (Math.random() * 10) + 's';
+      container.appendChild(e);
+    }
+  })();
+
+  // Compliment tags reveal on scroll
+  (function () {
+    var tags = document.querySelectorAll('.tag');
+    tags.forEach(function (tag, i) {
+      tag.style.transitionDelay = (i * 0.1) + 's';
+    });
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.25 });
+    tags.forEach(function (tag) { observer.observe(tag); });
+  })();
+
+  // Hayır button dodges away
+  (function () {
+    var noBtn = document.getElementById('no-btn');
+    var yesBtn = document.getElementById('yes-btn');
+    var tease = document.getElementById('tease');
+    var messages = [
+      'Emiri yenemezsin xd! 😄',
+      'Emirle uğraşma 😜',
+      'Kendini yorma 😏',
+      'Boşuna yoruluyorsun 💛',
+      'Emirin hediyesi haa kiymetini bil, (ben niye kendime iltifat ediom amk)? 😌'
+    ];
+    var clickCount = 0;
+
+    function moveNoButton() {
+      var w = noBtn.offsetWidth;
+      var h = noBtn.offsetHeight;
+      var maxX = Math.max(window.innerWidth - w - 24, 24);
+      var maxY = Math.max(window.innerHeight - h - 24, 24);
+      var newX = Math.random() * maxX;
+      var newY = Math.random() * maxY;
+      noBtn.style.position = 'fixed';
+      noBtn.style.margin = '0';
+      noBtn.style.left = newX + 'px';
+      noBtn.style.top = newY + 'px';
+
+      clickCount++;
+      var scale = Math.min(1 + clickCount * 0.06, 1.6);
+      yesBtn.style.transform = 'scale(' + scale + ')';
+      tease.textContent = messages[(clickCount - 1) % messages.length];
+    }
+
+    noBtn.addEventListener('click', moveNoButton);
+    noBtn.addEventListener('mouseenter', moveNoButton);
+  })();
+
+  // Evet -> celebration + confetti
+  (function () {
+    var yesBtn = document.getElementById('yes-btn');
+    var celebration = document.getElementById('celebration');
+    var wish = document.getElementById('wish');
+
+    yesBtn.addEventListener('click', function () {
+      celebration.classList.remove('hidden');
+      wish.classList.remove('hidden');
+      launchConfetti();
+      setTimeout(launchConfetti, 900);
+      setTimeout(function () {
+        celebration.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    });
+  })();
+
+  function launchConfetti() {
+    var colors = ['#f4c95d', '#f2789f', '#c9bede', '#fbf6ef', '#f8dc94'];
+    var container = document.getElementById('confetti-container');
+    var count = 110;
+    for (var i = 0; i < count; i++) {
+      var piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      var size = Math.random() * 7 + 5;
+      piece.style.width = size + 'px';
+      piece.style.height = (size * (Math.random() * 0.6 + 0.6)) + 'px';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      piece.style.animationDuration = (Math.random() * 2 + 3) + 's';
+      piece.style.animationDelay = (Math.random() * 0.6) + 's';
+      piece.style.opacity = String(Math.random() * 0.5 + 0.5);
+      container.appendChild(piece);
+      (function (p) { setTimeout(function () { p.remove(); }, 6000); })(piece);
+    }
+  }
+
+  // Wish box -> emails via FormSubmit
+  (function () {
+    var btn = document.getElementById('send-wish-btn');
+    var input = document.getElementById('wish-input');
+    var status = document.getElementById('wish-status');
+
+    btn.addEventListener('click', function () {
+      var text = input.value.trim();
+      if (!text) {
+        status.textContent = 'Göndermeden önce bir dilek yazmalısın 🙂';
+        status.style.color = '#f2789f';
+        return;
+      }
+      btn.disabled = true;
+      status.textContent = 'Gönderiliyor...';
+      status.style.color = '#c3b8da';
+
+      fetch('https://formsubmit.co/ajax/mane93163@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: 'Bir doğum günü dileği geldi 🎂',
+          _captcha: 'false',
+          Dilek: text
+        })
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error('gönderim hatası');
+          status.textContent = 'Dileğin kabul olur berki💛';
+          status.style.color = '#f4c95d';
+          input.value = '';
+        })
+        .catch(function () {
+          status.textContent = 'Bir sorun oldu, tekrar dener misin? 🙏';
+          status.style.color = '#f2789f';
+          btn.disabled = false;
+        });
+    });
+  })();
+</script>
+</body>
+  </html>
+
