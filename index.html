@@ -1,506 +1,152 @@
 <!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sana Özel</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fraunces:wght@400;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Ecrin'e Hediye – Kalp Koşusu</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg-deep: #1c1330;
-    --bg-deep-2: #150d24;
-    --bg-surface: #2c1f4a;
-    --gold: #f4c95d;
-    --gold-soft: #f8dc94;
-    --rose: #f2789f;
-    --text-primary: #fbf6ef;
-    --text-muted: #c3b8da;
-    --font-display: 'Fraunces', Georgia, serif;
-    --font-body: 'Sora', system-ui, sans-serif;
-    --font-script: 'Caveat', cursive;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: var(--font-body);
-    background: linear-gradient(180deg, var(--bg-deep-2), var(--bg-deep) 40%, #241a3d 100%);
-    color: var(--text-primary);
-    overflow-x: hidden;
-    min-height: 100vh;
-  }
-
-  section {
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 80px 24px;
-  }
-
-  .eyebrow {
-    font-size: 0.8rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 18px;
-  }
-
-  h1, h2 {
-    font-family: var(--font-display);
-    font-weight: 600;
-    line-height: 1.15;
-  }
-
-  h1 { font-size: clamp(2.4rem, 9vw, 4.2rem); }
-  h2 { font-size: clamp(2rem, 7vw, 3.2rem); }
-
-  .spark { display: inline-block; margin-left: 6px; }
-
-  .hero-sub {
-    margin-top: 20px;
-    color: var(--text-muted);
-    font-size: 1.05rem;
-  }
-
-  .scroll-cue {
-    position: absolute;
-    bottom: 40px;
-    font-size: 1.4rem;
-    color: var(--gold);
-    animation: bob 2s ease-in-out infinite;
-  }
-
-  @keyframes bob {
-    0%, 100% { transform: translateY(0); opacity: .6; }
-    50% { transform: translateY(10px); opacity: 1; }
-  }
-
-  #embers {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .ember {
-    position: absolute;
-    bottom: -20px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--gold-soft), transparent 70%);
-    animation-name: drift;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-  }
-  @keyframes drift {
-    0% { transform: translateY(0) translateX(0); opacity: 0; }
-    12% { opacity: .8; }
-    85% { opacity: .4; }
-    100% { transform: translateY(-115vh) translateX(24px); opacity: 0; }
-  }
-
-  .garland {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 34px 18px;
-    justify-content: center;
-    max-width: 760px;
-    margin-top: 30px;
-  }
-  .tag {
-    position: relative;
-    background: var(--bg-surface);
-    border: 1px solid rgba(244,201,93,0.22);
-    border-radius: 3px 3px 12px 12px;
-    padding: 20px 20px 18px;
-    width: 210px;
-    font-size: 0.95rem;
-    line-height: 1.45;
-    text-align: left;
-    box-shadow: 0 18px 34px -16px rgba(0,0,0,0.6);
-    opacity: 0;
-    transform: translateY(-16px) rotate(var(--tilt, 0deg));
-    transition: opacity .7s ease, transform .7s ease;
-  }
-  .tag::before {
-    content: '';
-    position: absolute;
-    top: -16px;
-    left: 50%;
-    width: 1px;
-    height: 16px;
-    background: rgba(244,201,93,0.45);
-  }
-  .tag::after {
-    content: '';
-    position: absolute;
-    top: -19px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--gold);
-  }
-  .tag.visible {
-    opacity: 1;
-    transform: translateY(0) rotate(var(--tilt, 0deg));
-  }
-
-  .gift { overflow: hidden; }
-  .spotlight {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 620px;
-    height: 620px;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(244,201,93,0.16), transparent 65%);
-    z-index: -1;
-  }
-  .gift-icon { font-size: 3rem; margin-bottom: 6px; }
-  .gift h2 { max-width: 480px; }
-
-  .btn-row {
-    display: flex;
-    gap: 18px;
-    margin-top: 34px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .btn {
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 15px 34px;
-    border-radius: 100px;
-    border: none;
-    cursor: pointer;
-    transition: transform .35s ease, top .35s ease, left .35s ease, box-shadow .2s ease;
-  }
-  .btn-yes {
-    background: var(--gold);
-    color: #241a3d;
-    box-shadow: 0 12px 26px -10px rgba(244,201,93,0.6);
-  }
-  .btn-yes:hover { transform: scale(1.04); }
-  .btn-no {
-    background: transparent;
-    color: var(--text-muted);
-    border: 1px solid rgba(255,255,255,0.25);
-  }
-
-  .tease {
-    margin-top: 22px;
-    min-height: 24px;
-    color: var(--rose);
-    font-size: 0.95rem;
-  }
-
-  .hidden { display: none; }
-
-  .celebration h2 { color: var(--gold-soft); }
-  .celebration-sub, .celebration-gift {
-    max-width: 460px;
-    margin-top: 16px;
-    color: var(--text-muted);
-    font-size: 1.05rem;
-  }
-  .celebration-gift { color: var(--rose); }
-
-  .wish-title {
-    font-family: var(--font-script);
-    font-weight: 700;
-    font-size: clamp(2.6rem, 8vw, 3.6rem);
-    color: var(--gold-soft);
-  }
-  .wish-sub {
-    color: var(--text-muted);
-    margin-top: 8px;
-    margin-bottom: 30px;
-  }
-
-  #wish-input {
-    width: 100%;
-    max-width: 460px;
-    background: var(--bg-surface);
-    border: 1px solid rgba(244,201,93,0.25);
-    border-radius: 16px;
-    padding: 18px;
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    font-size: 1rem;
-    resize: vertical;
-  }
-  #wish-input::placeholder { color: var(--text-muted); opacity: .7; }
-
-  .btn-send { background: var(--rose); color: #241a3d; margin-top: 20px; }
-  .btn-send:hover { transform: scale(1.04); }
-  .btn-send:disabled { opacity: .55; cursor: default; transform: none; }
-
-  .wish-status {
-    margin-top: 16px;
-    min-height: 22px;
-    font-size: 0.95rem;
-    color: var(--text-muted);
-  }
-
-  .footer { min-height: auto; padding: 40px 24px 56px; }
-  .footer p { font-family: var(--font-script); font-size: 1.3rem; color: var(--text-muted); }
-
-  #confetti-container {
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .confetti-piece {
-    position: absolute;
-    top: -10px;
-    animation-name: confetti-fall;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-  }
-  @keyframes confetti-fall {
-    0% { transform: translateY(0) rotate(0deg); }
-    100% { transform: translateY(110vh) rotate(720deg); }
-  }
-
-  button:focus-visible, textarea:focus-visible {
-    outline: 2px solid var(--gold);
-    outline-offset: 3px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .ember, .scroll-cue { animation: none !important; }
-    .tag { transition: opacity .3s ease; }
-  }
-
-  @media (max-width: 480px) {
-    .tag { width: 78vw; max-width: 260px; }
-    section { padding: 60px 20px; }
-  }
-</style>
-</head>
-<body>
-
-  <div id="embers"></div>
-  <div id="confetti-container"></div>
-
-  <section class="hero">
-    <p class="eyebrow">bu sayfa</p>
-    <h1>Tamamen<br>senin için<span class="spark">✨</span></h1>
-    <p class="hero-sub">Aşağı kaydır</p>
-    <div class="scroll-cue" aria-hidden="true">↓</div>
-  </section>
-
-  <section class="compliments">
-    <p class="eyebrow">bil ki</p>
-    <div class="garland">
-      <div class="tag" style="--tilt:-3deg">Al.</div>
-      <div class="tag" style="--tilt:2deg">sana</div>
-      <div class="tag" style="--tilt:-2deg">Hediye.</div>
-      <div class="tag" style="--tilt:3deg">Aslan.</div>
-      <div class="tag" style="--tilt:-3deg">Ablam</div>
-      <div class="tag" style="--tilt:2deg">Benim.</div>
-      <div class="tag" style="--tilt:-2deg">:D.</div>
-    </div>
-  </section>
-
-  <section class="gift">
-    <div class="spotlight"></div>
-    <p class="gift-icon" aria-hidden="true">🎁</p>
-    <h2>Sana bir hediye hazırladım.<br>Kabul ediyor musun?</h2>
-    <div class="btn-row">
-      <button id="yes-btn" class="btn btn-yes" type="button">Evet</button>
-      <button id="no-btn" class="btn btn-no" type="button">Hayır</button>
-    </div>
-    <p id="tease" class="tease" aria-live="polite"></p>
-  </section>
-
-  <section id="celebration" class="celebration hidden">
-    <p class="eyebrow">iyi ki doğdun</p>
-    <h2>Doğum günün<br>kutlu olsun 🎂 (Doğum günün değil ama olsun)</h2>
-    <p class="celebration-sub"> he bide okulda görüşürüz.</p>
-    <p class="celebration-gift">iyimi la 💫</p>
-  </section>
-
-  <section id="wish" class="wish hidden">
-    <p class="eyebrow">son olarak</p>
-    <h2 class="wish-title">Bir dilek tut</h2>
-    <p class="wish-sub">Aklından geçeni yaz, öylesine bir yer eglence amaçlı.</p>
-    <textarea id="wish-input" aria-label="Dileğin" placeholder="Dileğini buraya yaz..." rows="4"></textarea>
-    <button id="send-wish-btn" class="btn btn-send" type="button">Dileğini Gönder berki kabul olur</button>
-    <p id="wish-status" class="wish-status" aria-live="polite"></p>
-  </section>
-
-  <footer class="footer">
-    <p>İçtenlikle hazırlandı 🕯️</p>
-  </footer>
-
+html,body{margin:0;height:100%;overflow:hidden;background:#2d1560;color:#fff;font-family:system-ui,'Segoe UI',sans-serif;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas{display:block}
+#hud{position:fixed;top:max(12px,env(safe-area-inset-top));left:0;right:0;text-align:center;pointer-events:none;font:800 26px system-ui;text-shadow:0 2px 10px #0009}
+#bar{width:min(260px,60vw);height:10px;margin:8px auto 0;background:#fff3;border-radius:9px;overflow:hidden}
+#bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff8cc0,#ff2d6f);transition:width .3s}
+#flash{position:fixed;inset:0;background:#f00;opacity:0;pointer-events:none;transition:opacity .4s}
+.ov{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;z-index:5;background:radial-gradient(#3a1a60cc,#0b0618ee)}
+.ov h1{font:800 clamp(34px,10vw,64px) Georgia,serif;margin:0 0 10px;background:linear-gradient(90deg,#ffa6cf,#ff3d81);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ov p{margin:6px 0;opacity:.9;line-height:1.5}
+button{margin-top:22px;padding:14px 40px;font:700 20px system-ui;color:#fff;border:0;border-radius:40px;background:linear-gradient(90deg,#ff5fa2,#ff2d6f);box-shadow:0 8px 28px #ff2d6f88;cursor:pointer}
+#fin{display:none;background:radial-gradient(#0000 40%,#0b0618cc);justify-content:flex-end;padding-bottom:7vh;pointer-events:none}
+#fin button{pointer-events:auto;opacity:0;transition:1s}
+#msg p{margin:8px 0;font:600 clamp(18px,4.6vw,30px) Georgia,serif;opacity:0;transform:translateY(16px);transition:1.4s;text-shadow:0 2px 14px #000}
+#msg p.on{opacity:1;transform:none}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:6}
+#cnt{display:inline-block}#cnt.p{animation:pp .35s}@keyframes pp{50%{transform:scale(1.5);color:#ff9ac8}}
+#tt{position:fixed;top:26%;left:0;right:0;text-align:center;font:800 clamp(28px,8vw,52px) Georgia,serif;opacity:0;pointer-events:none;z-index:4;text-shadow:0 0 26px #ff2d6f,0 2px 8px #000}
+#tt.on{animation:tt 2.8s ease-out}@keyframes tt{0%{opacity:0;transform:scale(.8)}20%{opacity:1;transform:none}75%{opacity:1}100%{opacity:0;transform:translateY(-24px)}}
+#mu{position:fixed;top:12px;right:14px;z-index:7;font-size:24px;cursor:pointer}
+</style></head><body>
+<div id="hud" style="display:none"><span id="cnt">♥ 0 / 10</span><div id="bar"><i></i></div></div>
+<div id="flash"></div><div id="tt"></div><div id="mu">🔊</div><canvas id="fx"></canvas>
+<div class="ov" id="start"><h1>Ecrin'e Hediye 🎁</h1><p>10 kalbi topla, sürprizi aç.</p><p style="font-size:14px;opacity:.7">← → şerit değiştir · ↑ zıpla · ↓ kay<br>Telefonda: ekranı kaydır</p><button id="go">Başla</button></div>
+<div class="ov" id="fin"><div id="msg"></div><button id="again">Tekrar oyna</button></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-  // Ambient embers
-  (function () {
-    var container = document.getElementById('embers');
-    var count = 16;
-    for (var i = 0; i < count; i++) {
-      var e = document.createElement('span');
-      e.className = 'ember';
-      var size = Math.random() * 5 + 3;
-      e.style.width = size + 'px';
-      e.style.height = size + 'px';
-      e.style.left = Math.random() * 100 + 'vw';
-      e.style.animationDuration = (Math.random() * 8 + 9) + 's';
-      e.style.animationDelay = (Math.random() * 10) + 's';
-      container.appendChild(e);
-    }
-  })();
+// ✏️ Final mesajı: buradaki cümleleri kendin değiştirebilirsin
+const MSG=["Ecrin! 🎉","10 kalbi de topladın, helal olsun!","Seninle arkadaş olmak çok güzel.","İyi ki varsın, hep böyle kal. 🌟","Bu oyun küçük bir hediye, umarım sevmişsindir. 🎁"];
 
-  // Compliment tags reveal on scroll
-  (function () {
-    var tags = document.querySelectorAll('.tag');
-    tags.forEach(function (tag, i) {
-      tag.style.transitionDelay = (i * 0.1) + 's';
-    });
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.25 });
-    tags.forEach(function (tag) { observer.observe(tag); });
-  })();
+const $=i=>document.getElementById(i),L=2.4,rnd=Math.random;
+let state='menu',hearts=0,speed=5,acc=-15,px=0,lane=0,py=0,vy=0,slide=0,inv=0,shake=0,t=0,endT=0,fxOn=0,nm;
+const R=new THREE.WebGLRenderer({antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.25;document.body.prepend(R.domElement);
+const S=new THREE.Scene(),C=new THREE.PerspectiveCamera(65,1,.1,220);C.position.set(0,4.4,7.5);
+const mk=(w,h,f)=>{const c=document.createElement('canvas');c.width=w;c.height=h;f(c.getContext('2d'),w,h);const x=new THREE.CanvasTexture(c);x.anisotropy=4;return x};
 
-  // Hayır button dodges away
-  (function () {
-    var noBtn = document.getElementById('no-btn');
-    var yesBtn = document.getElementById('yes-btn');
-    var tease = document.getElementById('tease');
-    var messages = [
-      'Essek xd! 😄',
-      'basamazsin 😜',
-      'hadi hadi evete bas 😏',
-      'ugrasmaaaa 💛',
-      'burağın hediyesi haa kiymetini bil,  😌'
-    ];
-    var clickCount = 0;
+// Gökyüzü + ışık
+S.background=mk(4,256,(g,w,h)=>{const q=g.createLinearGradient(0,0,0,h);[[0,'#2d1560'],[.2,'#8a3a8c'],[.33,'#ff8f86'],[.4,'#ffc79a'],[1,'#ffc79a']].forEach(a=>q.addColorStop(a[0],a[1]));g.fillStyle=q;g.fillRect(0,0,w,h)});
+S.fog=new THREE.Fog(0xffa89a,30,110);
+const hemi=new THREE.HemisphereLight(0xffd9e8,0x40306a,.95);S.add(hemi);
+const sun=new THREE.DirectionalLight(0xffe2c0,.9);sun.position.set(-8,16,6);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-14,right:14,top:22,bottom:-22,far:60});S.add(sun);
+const glow=mk(128,128,g=>{const q=g.createRadialGradient(64,64,0,64,64,64);q.addColorStop(0,'#fff');q.addColorStop(.25,'#fffa');q.addColorStop(1,'#fff0');g.fillStyle=q;g.fillRect(0,0,128,128)});
+const spr=(c,s)=>{const m=new THREE.Sprite(new THREE.SpriteMaterial({map:glow,color:c,blending:THREE.AdditiveBlending,depthWrite:false,fog:false,transparent:true}));m.scale.set(s,s,1);return m};
+const sunS=spr(0xffc890,90);sunS.position.set(0,12,-170);S.add(sunS);
 
-    function moveNoButton() {
-      var w = noBtn.offsetWidth;
-      var h = noBtn.offsetHeight;
-      var maxX = Math.max(window.innerWidth - w - 24, 24);
-      var maxY = Math.max(window.innerHeight - h - 24, 24);
-      var newX = Math.random() * maxX;
-      var newY = Math.random() * maxY;
-      noBtn.style.position = 'fixed';
-      noBtn.style.margin = '0';
-      noBtn.style.left = newX + 'px';
-      noBtn.style.top = newY + 'px';
+// Ray + zemin
+const gt=mk(256,256,g=>{g.fillStyle='#5a4c5e';g.fillRect(0,0,256,256);for(let i=0;i<1800;i++){g.fillStyle=`hsla(300,10%,${25+rnd()*30}%,.5)`;g.fillRect(rnd()*256,rnd()*256,2,2)}
+[-2.4,0,2.4].forEach(c=>{const x=(c+5)/10*256;for(let y=0;y<256;y+=32){g.fillStyle='#0006';g.fillRect(x-25,y+8,50,12);g.fillStyle='#8a857d';g.fillRect(x-24,y+5,48,10);g.fillStyle='#aaa59b';g.fillRect(x-24,y+5,48,2)}[-15,15].forEach(o=>{g.fillStyle='#2f2f36';g.fillRect(x+o-3,0,7,256);g.fillStyle='#b9bfc9';g.fillRect(x+o-1,0,3,256);g.fillStyle='#fff8';g.fillRect(x+o,0,1,256);for(let y=7;y<256;y+=32){g.fillStyle='#1c1c20';g.fillRect(x+o-5,y,11,3)}})})});
+gt.wrapS=gt.wrapT=THREE.RepeatWrapping;gt.repeat.set(1,40);
+const gr=new THREE.Mesh(new THREE.PlaneGeometry(10,160),new THREE.MeshLambertMaterial({map:gt}));gr.rotation.x=-Math.PI/2;gr.position.z=-70;gr.receiveShadow=true;S.add(gr);
+const sd=new THREE.Mesh(new THREE.PlaneGeometry(120,160),new THREE.MeshLambertMaterial({color:0x3a2c4e}));sd.rotation.x=-Math.PI/2;sd.position.set(0,-.05,-70);S.add(sd);
 
-      clickCount++;
-      var scale = Math.min(1 + clickCount * 0.06, 1.6);
-      yesBtn.style.transform = 'scale(' + scale + ')';
-      tease.textContent = messages[(clickCount - 1) % messages.length];
-    }
+// Binalar: gerçekçi cepheler (duvar + çerçeveli pencereler + geceleri yanan pencere haritası)
+const roofM=new THREE.MeshLambertMaterial({color:0x5a5560}),roofR=new THREE.MeshLambertMaterial({color:0x8a3b2e});
+const FT=[['#9a5a46',1],['#d8c8a6',0],['#8f9199',0],['#b7a09c',0]].map(a=>{const lit=Array.from({length:32},()=>rnd()<.45),bal=Array.from({length:32},()=>rnd()<.12),cell=f=>{for(let r=0;r<8;r++)for(let c=0;c<4;c++)f(c*64+14,r*32+6,r*4+c)};
+const map=mk(256,256,g=>{g.fillStyle=a[0];g.fillRect(0,0,256,256);for(let i=0;i<1800;i++){g.fillStyle=rnd()<.5?'#0002':'#fff2';g.fillRect(rnd()*256,rnd()*256,2,2)}
+if(a[1]){g.fillStyle='#0003';for(let y=0;y<256;y+=6)g.fillRect(0,y,256,1)}
+g.fillStyle='#0004';for(let y=30;y<256;y+=32)g.fillRect(0,y,256,3);
+cell((x,y,i)=>{g.fillStyle='#24242c';g.fillRect(x-3,y-3,42,26);const q=g.createLinearGradient(0,y,0,y+20);q.addColorStop(0,'#a9c2d8');q.addColorStop(1,'#4d6178');g.fillStyle=q;g.fillRect(x,y,36,20);g.fillStyle='#24242c';g.fillRect(x+17,y,2,20);g.fillStyle='#d6cfc2';g.fillRect(x-5,y+22,46,3);if(bal[i]){g.fillStyle='#5d5a57';g.fillRect(x-6,y+25,48,3);g.fillStyle='#3a3a40';for(let k=0;k<=48;k+=6)g.fillRect(x-6+k,y+14,1,11)}})}),
+em=mk(256,256,g=>{g.fillStyle='#000';g.fillRect(0,0,256,256);cell((x,y,i)=>{if(lit[i]){g.fillStyle=i%3?'#ffd69a':'#cfe6ff';g.fillRect(x,y,36,20)}})});
+return[map,em]});
+function bExtras(m,w,h,s){const add=(g,mt,x,y,z)=>{const e=new THREE.Mesh(g,mt);e.position.set(x,y,z);m.add(e);return e};
+add(new THREE.BoxGeometry(w+.5,.6,w+.5),roofM,0,h/2+.3,0);
+if(h<15)add(new THREE.ConeGeometry(w*.74,3.2,4),roofR,0,h/2+2.2,0).rotation.y=Math.PI/4;
+else{add(new THREE.CylinderGeometry(.9,.9,1.8,10),roofM,w*.2,h/2+1.5,w*.15);add(new THREE.CylinderGeometry(.04,.04,3.5,5),roofM,-w*.2,h/2+2.3,-w*.1);add(new THREE.BoxGeometry(1.4,.9,1),roofM,-w*.25,h/2+1,w*.2)}
+add(new THREE.BoxGeometry(.9,.35,w*.8),new THREE.MeshLambertMaterial({color:[0xc0392b,0x2a7ab9,0x2e8b57,0xd4a017][rnd()*4|0]}),-s*(w/2+.45),-h/2+2.6,0)}
+const wt=mk(128,256,(g,w,h)=>{g.fillStyle='#2a2140';g.fillRect(0,0,w,h);for(let y=8;y<h;y+=24)for(let x=8;x<w;x+=24){g.fillStyle=rnd()<.45?'#ffd98a':'#463a66';g.fillRect(x,y,12,14)}});
+const bl=[];for(let s=-1;s<2;s+=2)for(let i=0;i<12;i++){const w=6+rnd()*4,h=8+rnd()*16,tx=wt.clone(),st=FT[rnd()*4|0],t1=st[0].clone(),t2=st[1].clone();[t1,t2].forEach(x=>{x.needsUpdate=true;x.wrapS=x.wrapT=THREE.RepeatWrapping;x.repeat.set(w/8,h/24)});tx.needsUpdate=true;tx.wrapS=tx.wrapT=THREE.RepeatWrapping;tx.repeat.set(w/6,h/8);
+const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,w),new THREE.MeshLambertMaterial({map:t1,emissive:0xffffff,emissiveMap:t2,emissiveIntensity:.15}));m.userData.o=.75+rnd()*.35;bExtras(m,w,h,s);m.position.set(s*(8+w/2+rnd()*3),h/2,-i*14-rnd()*6);S.add(m);bl.push(m)}
 
-    noBtn.addEventListener('click', moveNoButton);
-    noBtn.addEventListener('mouseenter', moveNoButton);
-  })();
+// Karakter
+const P=new THREE.Group(),M=c=>new THREE.MeshStandardMaterial({color:c,roughness:.6});
+const bx=(w,h,d,c,x,y,z,pv)=>{const g=new THREE.BoxGeometry(w,h,d);if(pv)g.translate(0,-h/2,0);const m=new THREE.Mesh(g,M(c));m.position.set(x,y,z);m.castShadow=true;P.add(m);return m};
+const ball=(r,c,x,y,z)=>{const m=new THREE.Mesh(new THREE.SphereGeometry(r,18,14),M(c));m.position.set(x,y,z);m.castShadow=true;P.add(m)};
+{const g=new THREE.CylinderGeometry(.34,.3,.85,14);g.scale(1,1,.65);const t=new THREE.Mesh(g,M(0xff5fa2));t.position.y=1.15;t.castShadow=true;P.add(t)}bx(.5,.6,.22,0x3b6fd8,0,1.2,.3);bx(.08,.5,.03,0x23407f,-.2,1.25,-.225);bx(.08,.5,.03,0x23407f,.2,1.25,-.225);ball(.2,0xff5fa2,0,1.6,.18);[-.1,.1].forEach(x=>ball(.035,0x222222,x,1.83,-.265));bx(.12,.03,.03,0xc0504d,0,1.72,-.27);ball(.28,0xffd2b0,0,1.8,0);ball(.31,0x5a3220,0,1.85,.07);const tail=new THREE.Group();tail.position.set(0,1.8,.28);P.add(tail);[[.14,0,0],[.11,-.2,.06],[.08,-.38,.1]].forEach(a=>{const m=new THREE.Mesh(new THREE.SphereGeometry(a[0],12,10),M(0x5a3220));m.position.set(0,a[1],a[2]);m.castShadow=true;tail.add(m)});
+const cl=(r,h,c,x,y)=>{const g=new THREE.CylinderGeometry(r,r*.85,h,10);g.translate(0,-h/2,0);const m=new THREE.Mesh(g,M(c));m.position.set(x,y,0);m.castShadow=true;P.add(m);return m};
+const legL=cl(.13,.8,0x2b3a8a,-.17,.82),legR=cl(.13,.8,0x2b3a8a,.17,.82),armL=cl(.09,.7,0xff5fa2,-.45,1.52),armR=cl(.09,.7,0xff5fa2,.45,1.52);
+[legL,legR].forEach(l=>{const s=new THREE.Mesh(new THREE.BoxGeometry(.3,.16,.42),M(0xffffff));s.position.set(0,-.78,-.07);s.castShadow=true;l.add(s)});[armL,armR].forEach(a=>{const h=new THREE.Mesh(new THREE.SphereGeometry(.11,10,8),M(0xffd2b0));h.position.y=-.72;a.add(h)});S.add(P);
 
-  // Evet -> celebration + confetti
-  (function () {
-    var yesBtn = document.getElementById('yes-btn');
-    var celebration = document.getElementById('celebration');
-    var wish = document.getElementById('wish');
+// Engeller
+const stripe=mk(64,64,(g,w,h)=>{g.fillStyle='#f4f4f4';g.fillRect(0,0,w,h);g.fillStyle='#e0294a';for(let i=-4;i<5;i++){g.beginPath();g.moveTo(i*16,h);g.lineTo(i*16+8,h);g.lineTo(i*16+8+h,0);g.lineTo(i*16+h,0);g.fill()}});
+const trainT=mk(128,128,(g,w,h)=>{g.fillStyle='#3a7bd5';g.fillRect(0,0,w,h);g.fillStyle='#ffd24a';g.fillRect(0,h*.62,w,h*.08);g.fillStyle='#d6f1ff';for(let i=0;i<4;i++)g.fillRect(8+i*30,h*.18,20,h*.3);g.fillStyle='#1e2a4a';g.fillRect(0,h*.82,w,h*.18)});
+const mS=new THREE.MeshLambertMaterial({map:stripe}),mT=new THREE.MeshLambertMaterial({map:trainT}),mH=new THREE.MeshBasicMaterial({color:0xfff2b0});
+const mkTr=(c1,c2)=>mk(512,180,(g,w,h)=>{g.fillStyle=c1;g.fillRect(0,0,w,h);g.fillStyle='#1d2330';g.fillRect(0,h*.84,w,h*.16);g.fillStyle=c2;g.fillRect(0,h*.66,w,h*.07);g.fillStyle='#fff6';g.fillRect(0,2,w,6);
+for(let i=0;i<8;i++){const x=22+i*60;if(i==2||i==5){g.fillStyle='#0003';g.fillRect(x-6,10,52,h*.74);g.fillStyle='#9fb6cc';g.fillRect(x+2,22,16,70);g.fillRect(x+22,22,16,70)}else{g.fillStyle='#1d2330';g.fillRect(x-3,17,52,64);const q=g.createLinearGradient(0,20,0,76);q.addColorStop(0,'#b5cde2');q.addColorStop(1,'#4d6379');g.fillStyle=q;g.fillRect(x,20,46,56)}}
+g.fillStyle='#0004';for(let x=0;x<w;x+=170)g.fillRect(x,0,3,h)});
+const mkTf=c=>mk(128,192,(g,w,h)=>{g.fillStyle=c;g.fillRect(0,0,w,h);g.fillStyle='#1d2330';g.fillRect(0,h*.8,w,h*.2);g.fillStyle='#e8e8ee';g.fillRect(0,h*.7,w,6);g.fillStyle='#1b2430';g.fillRect(10,20,108,70);const q=g.createLinearGradient(0,20,0,90);q.addColorStop(0,'#6f8ba6');q.addColorStop(1,'#243445');g.fillStyle=q;g.fillRect(14,24,100,62);g.fillStyle='#111';g.fillRect(40,98,48,14);g.fillStyle='#ff9a2e';g.fillRect(44,101,40,8)});
+const roofM2=new THREE.MeshLambertMaterial({color:0xaab0b8}),dk=new THREE.MeshLambertMaterial({color:0x23252b});
+const TRN=[['#3a7bd5','#ffd24a'],['#c8382f','#f2f2f2'],['#2f8f6b','#ffd24a']].map(a=>{const s=new THREE.MeshLambertMaterial({map:mkTr(a[0],a[1])}),f=new THREE.MeshLambertMaterial({map:mkTf(a[0])});return[s,s,roofM2,dk,f,f]});
+function trainX(m){const a=(g,mt,x,y,z)=>{const e=new THREE.Mesh(g,mt);e.position.set(x,y,z);e.castShadow=true;m.add(e)};
+a(new THREE.BoxGeometry(1.7,.25,8.8),roofM2,0,1.72,0);a(new THREE.BoxGeometry(1.1,.3,1.5),roofM2,0,1.95,-2);a(new THREE.BoxGeometry(1.1,.3,1.5),roofM2,0,1.95,2.4);
+[-2.9,2.9].forEach(z=>a(new THREE.BoxGeometry(1.7,.45,1.7),dk,0,-1.65,z))}
+const B=(w,h,d)=>new THREE.BoxGeometry(w,h,d),gT=B(2.1,3.2,9),gH=B(.4,.3,.1),gB=B(2,.9,.4),gO=B(2.3,.5,.5),gP=B(.2,1.6,.2);
+const obs=[],hArr=[],pts=[],ring=[];
+function addObs(l,k,z){let m,d;
+if(k==1){m=new THREE.Mesh(gT,TRN[rnd()*3|0]);m.position.y=1.9;d=9;[-.6,.6].forEach(x=>{const h=new THREE.Mesh(gH,mH);h.position.set(x,-.6,4.55);m.add(h)});trainX(m)}
+else{m=new THREE.Group();if(k==0){const b=new THREE.Mesh(gB,mS);b.position.y=.55;m.add(b);d=.4}else{const b=new THREE.Mesh(gO,mS);b.position.y=1.75;m.add(b);[-1,1].forEach(x=>{const p=new THREE.Mesh(gP,mS);p.position.set(x*1.05,.8,0);m.add(p)});d=.5}}
+m.traverse(o=>o.castShadow=true);m.position.x=l*L;m.position.z=z;S.add(m);obs.push({m,k,d,v:k==1&&rnd()<.4?9:0})}
 
-    yesBtn.addEventListener('click', function () {
-      celebration.classList.remove('hidden');
-      wish.classList.remove('hidden');
-      launchConfetti();
-      setTimeout(launchConfetti, 900);
-      setTimeout(function () {
-        celebration.scrollIntoView({ behavior: 'smooth' });
-      }, 150);
-    });
-  })();
+// Kalp
+const hs=new THREE.Shape();hs.moveTo(5,5);hs.bezierCurveTo(5,5,4,0,0,0);hs.bezierCurveTo(-6,0,-6,7,-6,7);hs.bezierCurveTo(-6,11,-3,15.4,5,19);hs.bezierCurveTo(12,15.4,16,11,16,7);hs.bezierCurveTo(16,7,16,0,10,0);hs.bezierCurveTo(7,0,5,5,5,5);
+const hg=new THREE.ExtrudeGeometry(hs,{depth:4,bevelEnabled:true,bevelSize:1.2,bevelThickness:1.2,bevelSegments:3});hg.center();hg.scale(.045,.045,.045);
+const hm=new THREE.MeshStandardMaterial({color:0xff2d6f,emissive:0xff1d5a,emissiveIntensity:.7,roughness:.25,metalness:.2});
+const newHeart=()=>{const m=new THREE.Mesh(hg,hm);m.add(spr(0xff4d8d,2.8));m.castShadow=true;S.add(m);return m};
+function spawn(z){const f=(rnd()*3|0)-1;for(let l=-1;l<2;l++)if(l!=f&&rnd()<.8)addObs(l,rnd()<.45?1:rnd()<.5?0:2,z);
+if(hearts+hArr.length<10){const m=newHeart();m.position.set(f*L,1.2,z);hArr.push(m)}
+if(!pu&&fly<=0&&rnd()<.35){pu=new THREE.Mesh(new THREE.OctahedronGeometry(.5),new THREE.MeshStandardMaterial({color:0x66e0ff,emissive:0x2299ff,emissiveIntensity:.9}));pu.add(spr(0x66e0ff,3));pu.position.set(((rnd()*3|0)-1)*L,1.5,z-14);S.add(pu)}}
+function burst(x,y,c,n){for(let i=0;i<n;i++){const s=spr(c,.7);s.position.set(x,y,0);s.userData={v:new THREE.Vector3((rnd()-.5)*6,rnd()*5,(rnd()-.5)*6),l:1};S.add(s);pts.push(s)}}
 
-  function launchConfetti() {
-    var colors = ['#f4c95d', '#f2789f', '#c9bede', '#fbf6ef', '#f8dc94'];
-    var container = document.getElementById('confetti-container');
-    var count = 110;
-    for (var i = 0; i < count; i++) {
-      var piece = document.createElement('div');
-      piece.className = 'confetti-piece';
-      var size = Math.random() * 7 + 5;
-      piece.style.width = size + 'px';
-      piece.style.height = (size * (Math.random() * 0.6 + 0.6)) + 'px';
-      piece.style.left = Math.random() * 100 + 'vw';
-      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-      piece.style.animationDuration = (Math.random() * 2 + 3) + 's';
-      piece.style.animationDelay = (Math.random() * 0.6) + 's';
-      piece.style.opacity = String(Math.random() * 0.5 + 0.5);
-      container.appendChild(piece);
-      (function (p) { setTimeout(function () { p.remove(); }, 6000); })(piece);
-    }
-  }
+// Ses
+let AC;const beep=(f,d,ty,v,f2)=>{try{AC=AC||new(window.AudioContext||webkitAudioContext)();const n=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type=ty;o.frequency.setValueAtTime(f,n);if(f2)o.frequency.exponentialRampToValueAtTime(f2,n+d);g.gain.setValueAtTime(v,n);g.gain.exponentialRampToValueAtTime(.001,n+d);o.connect(g).connect(AC.destination);o.start();o.stop(n+d)}catch(e){}};
 
-  // Wish box -> emails via FormSubmit
-  (function () {
-    var btn = document.getElementById('send-wish-btn');
-    var input = document.getElementById('wish-input');
-    var status = document.getElementById('wish-status');
+// Kontroller
+const mv=d=>{if(state=='play')lane=Math.max(-1,Math.min(1,lane+d))};
+const jump=()=>{if(state=='play'&&py<.05){vy=9.5;slide=0;beep(300,.2,'square',.06,600)}};
+const sld=()=>{if(state=='play'){slide=.8;if(py>.05)vy=-14}};
+addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(k=='arrowleft'||k=='a')mv(-1);if(k=='arrowright'||k=='d')mv(1);if(k=='arrowup'||k=='w'||k==' ')jump();if(k=='arrowdown'||k=='s')sld()});
+let sx=null,sy;addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY});
+addEventListener('pointermove',e=>{if(sx==null)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.hypot(dx,dy)>28){Math.abs(dx)>Math.abs(dy)?mv(dx>0?1:-1):dy<0?jump():sld();sx=e.clientX;sy=e.clientY}});
+addEventListener('pointerup',()=>sx=null);
 
-    btn.addEventListener('click', function () {
-      var text = input.value.trim();
-      if (!text) {
-        status.textContent = 'Göndermeden önce bir dilek yazmalısın 🙂';
-        status.style.color = '#f2789f';
-        return;
-      }
-      btn.disabled = true;
-      status.textContent = 'Gönderiliyor...';
-      status.style.color = '#c3b8da';
+// Olaylar
+function hit(o,i){burst(o.m.position.x,1.2,0xffffff,12);S.remove(o.m);obs.splice(i,1);inv=1.6;speed*=.6;shake=1;scatter();$('flash').style.opacity=.35;setTimeout(()=>$('flash').style.opacity=0,130);beep(120,.35,'sawtooth',.2,45)}
+function collect(m,i){burst(m.position.x,1.3,0xff6fa8,16);S.remove(m);hArr.splice(i,1);hearts++;$('cnt').textContent='♥ '+hearts+' / 10';pop();{bst=Math.max(bst,hearts);const k=bst<2?0:bst<5?1:bst<8?2:3;if(k!=mp){mp=k;go(k)}}$('bar').firstElementChild.style.width=hearts*10+'%';beep(700,.12,'triangle',.2,1200);if(hearts>=10)finale()}
+function finale(){state='end';endT=0;$('hud').style.display='none';
+obs.splice(0).forEach(o=>S.remove(o.m));hArr.splice(0).forEach(m=>S.remove(m));fly=0;if(pu){S.remove(pu);pu=null}
+for(let i=0;i<10;i++){const m=newHeart();ring.push(m)}
+nm=new THREE.Sprite(new THREE.SpriteMaterial({map:mk(512,160,(g,w,h)=>{g.font='italic 700 104px Georgia,serif';g.textAlign='center';g.textBaseline='middle';g.shadowColor='#ff2d6f';g.shadowBlur=30;const q=g.createLinearGradient(0,0,w,0);q.addColorStop(0,'#ffd1e6');q.addColorStop(1,'#ff6fa8');g.fillStyle=q;g.fillText('Ecrin ★',w/2,h/2+4)}),transparent:true,fog:false,depthWrite:false}));
+nm.scale.set(.01,.01,1);nm.position.set(0,3.7,0);S.add(nm);
+const sc=C.aspect<1?.09:.12,HN=2400;hp0=new Float32Array(HN*3);hp1=new Float32Array(HN*3);const hc=new Float32Array(HN*3);
+for(let i=0,j;i<HN;i++){j=i*3;const a=rnd()*6.283,r=Math.pow(rnd(),.3),u=rnd()*6.283,v=rnd()*3.14,rr=10+rnd()*20,k=rnd();
+hp1[j]=16*Math.pow(Math.sin(a),3)*r*sc;hp1[j+1]=((13*Math.cos(a)-5*Math.cos(2*a)-2*Math.cos(3*a)-Math.cos(4*a))*r+2.5)*sc;hp1[j+2]=(rnd()-.5)*12*sc*(1.1-r);
+hp0[j]=rr*Math.sin(v)*Math.cos(u);hp0[j+1]=rr*Math.cos(v);hp0[j+2]=rr*Math.sin(v)*Math.sin(u);hc[j]=1;hc[j+1]=.25+.6*k*k;hc[j+2]=.5+.45*k}
+hgm=new THREE.BufferGeometry();hgm.setAttribute('position',new THREE.BufferAttribute(new Float32Array(hp0),3));hgm.setAttribute('color',new THREE.BufferAttribute(hc,3));
+hp=new THREE.Points(hgm,new THREE.PointsMaterial({size:.25,map:glow,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,fog:false}));hp.frustumCulled=false;hp.position.y=6.6;S.add(hp);
+for(let i=0;i<4;i++){const m=new THREE.Mesh(new THREE.RingGeometry(.96,1,64),new THREE.MeshBasicMaterial({color:0xff5fa2,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide,fog:false}));m.rotation.x=-Math.PI/2;m.position.y=.06;S.add(m);wvs.push(m)}
+const mg=$('msg');$('fin').style.display='flex';mg.innerHTML=MSG.map(m=>`<p>${m}</p>`).join('');fxOn=1;
+MSG.forEach((_,i)=>setTimeout(()=>mg.children[i].classList.add('on'),1500+i*2400));
+setTimeout(()=>$('again').style.opacity=1,1500+MSG.length*2400);
+[523,659,784,1047,784,1047,1319].forEach((n,i)=>setTimeout(()=>beep(n,.5,'triangle',.15),i*230));
+for(let i=0;i<4;i++)setTimeout(()=>boom(innerWidth*(.2+rnd()*.6),innerHeight*(.15+rnd()*.3)),400+i*450)}
 
-      fetch('https://formsubmit.co/ajax/mane93163@gmail.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          _subject: 'Bir doğum günü dileği geldi 🎂',
-          _captcha: 'false',
-          Dilek: text
-        })
-      })
-        .then(function (res) {
-          if (!res.ok) throw new Error('gönderim hatası');
-          status.textContent = 'Dileğin kabul olur berki💛';
-          status.style.color = '#f4c95d';
-          input.value = '';
-        })
-        .catch(function () {
-          status.textContent = 'Bir sorun oldu, tekrar dener misin? 🙏';
-          status.style.color = '#f2789f';
-          btn.disabled = false;
-        });
-    });
-  })();
-</script>
-</body>
-  </html>
-
+// Havai fişek + yükselen kalpler (2D katman)
+const fx=$('fx'),X=fx.getContext('2d'),F=[],HH=[];
+function boom(x,y){const h=rnd()*360;for(let i=0;i<70;i++){const a=i/70*6.283,s=1.5+rnd()*4;F.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:1,c:`hsl(${h+rnd()*50},100%,65%)`})}}
+function fxl(dt){const W=fx.width,H=fx.height,k=dt*60;X.globalCompositeOperation='destination-out';X.fillStyle='rgba(0,0,0,.22)';X.fillRect(0,0,W,H);X.globalCompositeOperation='lighter';
+if(fxOn){if(rnd()<dt*1.8)boom(W*(.15+rnd()*.7),H*(.1+rnd()*.35));if(rnd()<dt*6)HH.push({x:rnd()*W,y:H+30,s:14+rnd()*28,v:50+rnd()*90,p:rnd()*6,c:`hsla(${330+rnd()*30},100%,${65+rnd()*20}%,.85)`})}
+for(let i=F.length-1;i>=0;i--){const p=F[i];p.x+=p.vx*k;p.y+=p.vy*k;p.vy+=.04*k;p.vx*=.985;p.vy*=.985;p.l-=dt*.55;if(p.l<=0){F.s
